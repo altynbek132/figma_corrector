@@ -6,7 +6,7 @@ import 'package:utils/utils_dart/string_extension.dart';
 
 void main(List<String> arguments) {
   if (arguments.isEmpty) {
-    print('Usage: dart figma_correct.dart <filename>');
+    print('Usage: figma_correct <filename>');
     exit(1);
   }
 
