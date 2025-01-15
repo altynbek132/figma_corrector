@@ -71,7 +71,7 @@ String processColors(String content) {
     final color = match.group(0)!;
     final name = colors_to_name[
         color]!; // Replace getColorName with your logic to get the name for the color
-    content = content.replaceAll(color, 'AppColors.$name');
+    content = content.replaceAll(color, 'context.appColors.$name');
   }
 
   final defs = colors_to_name.keys.map(
