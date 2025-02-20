@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:change_case/change_case.dart';
 import 'package:utils/utils_dart/string_extension.dart';
 
 void main(List<String> arguments) {
@@ -42,10 +43,15 @@ void main(List<String> arguments) {
   );
 
   modifiedContents = modifiedContents.replaceAll('const ', '');
-  modifiedContents =
-      modifiedContents.replaceAll("'Muller'", 'FontFamily.muller');
-  modifiedContents =
-      modifiedContents.replaceAll('fontFamily: FontFamily.muller,', '');
+
+  // fontFamily:\s*['"]?([^'"]*)['"]?
+  modifiedContents = modifiedContents.replaceAllMapped(
+    RegExp('fontFamily:\\s*[\'"]?([^\'"]*)[\'"]?'),
+    (match) {
+      final fontCamel = match.group(1)?.toCamelCase();
+      return 'fontFamily: AppFonts.$fontCamel';
+    },
+  );
   modifiedContents = modifiedContents.replaceAll('height: 0.h', 'height: 1');
 
   modifiedContents = processColors(modifiedContents);
