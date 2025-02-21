@@ -52,6 +52,14 @@ void main(List<String> arguments) {
       return 'fontFamily: AppFonts.$fontCamel';
     },
   );
+  // fontWeight: FontWeight.w100,
+  // fontVariations: [FontVariation('wght', 100)],
+  modifiedContents = modifiedContents.replaceAllMapped(
+    RegExp(r"fontWeight:\s*FontWeight\.w(\d+),"),
+    (match) {
+      return "${match.group(0)} fontVariations: [FontVariation('wght', ${match.group(1)})],";
+    },
+  );
   modifiedContents = modifiedContents.replaceAll('height: 0.h', 'height: 1');
 
   modifiedContents = processColors(modifiedContents);
