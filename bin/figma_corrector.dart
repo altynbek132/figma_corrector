@@ -54,12 +54,12 @@ void main(List<String> arguments) {
   );
   // fontWeight: FontWeight.w100,
   // fontVariations: [FontVariation('wght', 100)],
-  modifiedContents = modifiedContents.replaceAllMapped(
-    RegExp(r"fontWeight:\s*FontWeight\.w(\d+),"),
-    (match) {
-      return "fontVariations: [FontVariation('wght', ${match.group(1)})],";
-    },
-  );
+  // modifiedContents = modifiedContents.replaceAllMapped(
+  //   RegExp(r"fontWeight:\s*FontWeight\.w(\d+),"),
+  //   (match) {
+  //     return "fontVariations: [FontVariation('wght', ${match.group(1)})],";
+  //   },
+  // );
   modifiedContents = modifiedContents.replaceAll('height: 0.h', 'height: 1');
 
   modifiedContents = processColors(modifiedContents);
@@ -72,7 +72,7 @@ String processColors(String content) {
   final matches = colorRegex.allMatches(content);
 
   // to set of colors
-  final colors_to_name = Map.fromEntries(
+  final colorsToName = Map.fromEntries(
     matches.map((match) => match.group(0)!).toSet().map(
       (e) {
         final name = e.substring_(8, -1).toUpperCase();
@@ -83,14 +83,14 @@ String processColors(String content) {
 
   for (final match in matches) {
     final color = match.group(0)!;
-    final name = colors_to_name[
+    final name = colorsToName[
         color]!; // Replace getColorName with your logic to get the name for the color
     content = content.replaceAll(color, 'context.appColors.$name');
   }
 
-  final defs = colors_to_name.keys.map(
+  final defs = colorsToName.keys.map(
     (e) {
-      final name = colors_to_name[e]!;
+      final name = colorsToName[e]!;
       return 'static const $name = $e;';
     },
   ).join('\n');
