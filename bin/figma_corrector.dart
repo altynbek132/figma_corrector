@@ -57,7 +57,7 @@ void main(List<String> arguments) {
   modifiedContents = modifiedContents.replaceAllMapped(
     RegExp(r"fontWeight:\s*FontWeight\.w(\d+),"),
     (match) {
-      return "${match.group(0)} fontVariations: [FontVariation('wght', ${match.group(1)})],";
+      return "fontVariations: [FontVariation('wght', ${match.group(1)})],\n${match.group(0)}\n";
     },
   );
   modifiedContents = modifiedContents.replaceAll('height: 0.h', 'height: 1');
