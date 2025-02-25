@@ -19,6 +19,8 @@ void main(List<String> arguments) {
     exit(1);
   }
 
+  final designIndexAppendStr = arguments.elementAtOrNull(1) ?? '';
+
   // Read the contents of the file
   final contents = file.readAsStringSync();
 
@@ -27,19 +29,19 @@ void main(List<String> arguments) {
   // Replace all numbers with zeros
   modifiedContents = modifiedContents.replaceAllMapped(
     RegExp(r'(?:top|bottom|height|vertical):\s*(-?[0-9]*\.?[0-9]+)'),
-    (match) => '${match.group(0)!}.h',
+    (match) => '${match.group(0)!}.h$designIndexAppendStr',
   );
   modifiedContents = modifiedContents.replaceAllMapped(
     RegExp(r'(?:left|right|width|horizontal):\s*(-?[0-9]*\.?[0-9]+)'),
-    (match) => '${match.group(0)!}.w',
+    (match) => '${match.group(0)!}.w$designIndexAppendStr',
   );
   modifiedContents = modifiedContents.replaceAllMapped(
     RegExp(r'(?:radius):\s*(-?[0-9]*\.?[0-9]+)'),
-    (match) => '${match.group(0)!}.r',
+    (match) => '${match.group(0)!}.r$designIndexAppendStr',
   );
   modifiedContents = modifiedContents.replaceAllMapped(
     RegExp(r'(?:fontSize):\s*(-?[0-9]*\.?[0-9]+)'),
-    (match) => '${match.group(0)!}.sp',
+    (match) => '${match.group(0)!}.sp$designIndexAppendStr',
   );
 
   modifiedContents = modifiedContents.replaceAll('const ', '');
@@ -60,7 +62,7 @@ void main(List<String> arguments) {
   //     return "fontVariations: [FontVariation('wght', ${match.group(1)})],";
   //   },
   // );
-  modifiedContents = modifiedContents.replaceAll('height: 0.h', 'height: 1');
+  modifiedContents = modifiedContents.replaceAll('height: 0.h$designIndexAppendStr', 'height: 1');
 
   modifiedContents = processColors(modifiedContents);
   // Write the modified contents back to the file
@@ -83,8 +85,7 @@ String processColors(String content) {
 
   for (final match in matches) {
     final color = match.group(0)!;
-    final name = colorsToName[
-        color]!; // Replace getColorName with your logic to get the name for the color
+    final name = colorsToName[color]!; // Replace getColorName with your logic to get the name for the color
     content = content.replaceAll(color, 'context.appColors.$name');
   }
 
