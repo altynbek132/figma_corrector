@@ -92,7 +92,7 @@ String processColors(String content) {
   final defs = colorsToName.keys.map(
     (e) {
       final name = colorsToName[e]!;
-      return 'static const $name = $e;';
+      return 'final $name = $e;';
     },
   ).join('\n');
 
